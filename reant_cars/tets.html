@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Marker Clustering</title>
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<script>
+    function initMap() {
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 13,
+            center: {lat: 48.208087, lng: 16.373554}
+        });
+        var infoWin = new google.maps.InfoWindow();
+        var markers = locations.map(function (location, i) {
+            var marker = new google.maps.Marker({
+                position: location
+            });
+            google.maps.event.addListener(marker, 'click', function (evt) {
+                infoWin.setContent(location.info);
+                infoWin.open(map, marker);
+            })
+            return marker;
+        });
+
+        // markerCluster.setMarkers(markers);
+        // Add a marker clusterer to manage the markers.
+        var markerCluster = new MarkerClusterer(map, markers, {
+            imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+        });
+
+    }
+
+    var locations = [{lat: 48.210282, lng: 16.370456, info: "marker 1"},
+        {lat: 48.211283, lng: 16.372065, info: "marker 2"},
+        {lat: 48.211326, lng: 16.378528, info: `<div id="content">
+                                  <div id="siteNotice">
+                                  </div>
+                                  <h1 id=\"firstHeading\" class=\"firstHeading\">Uluru</h1>
+                                 <div id=\"bodyContent\">
+                                  <p><b>Uluru</b>, also referred to as <b>Ayers Rock</b>, is a large
+                                  'sandstone rock formation in the southern part of the
+                                  Heritage Site.</p>
+                                  <p>Attribution: Uluru, <a href=\"https://en.wikipedia.org/w/index.php?title=Uluru&oldid=297882194\">
+                                  test URL</a>
+                               </div>
+                               </div>`}];
+
+</script>
+<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBPL_ArnrbPC2-HxGPPVvKs6er2KmclyAY&callback=initMap"
+        async defer></script>
+</body>
+</html>
